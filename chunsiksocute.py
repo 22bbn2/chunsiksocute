@@ -58,22 +58,22 @@ async def play_next(ctx):
             'options': '-vn'
         }
 
-        # def after_playing(error):
-        #     coro = ctx.send(f"나 이 노래 재생 다 끝냈어!! >> {title}")
-        #     fut = asyncio.run_coroutine_threadsafe(coro, bot.loop)
-        #     try:
-        #         fut.result()
-        #     except Exception as e:
-        #         print(f"Error sending message: {e}")
+        def after_playing(error):
+            # coro = ctx.send(f"나 이 노래 재생 다 끝냈어!! >> {title}")
+            # fut = asyncio.run_coroutine_threadsafe(coro, bot.loop)
+            # try:
+            #     fut.result()
+            # except Exception as e:
+            #     print(f"Error sending message: {e}")
 
-        #     asyncio.run_coroutine_threadsafe(play_next(ctx), bot.loop)
+            asyncio.run_coroutine_threadsafe(play_next(ctx), bot.loop)
 
         audio_source = discord.FFmpegPCMAudio(URL, **ffmpeg_options)
-        ctx.voice_client.play(audio_source)
+        ctx.voice_client.play(audio_source, after=after_playing)
         await ctx.send(f'지금 이 노래 재생할게! >> {title}')
     else:
         # 아무도 없어서 나간 경우에는 메시지 출력안함 그 외의 경우만 출력
-        if(bot.voice_clients[0].channel.members > 1):
+        if len(bot.voice_clients[0].channel.members) > 1:
             await ctx.send("재생 대기열에 노래가 없어!")
 
 @bot.command()
