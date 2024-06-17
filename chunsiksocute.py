@@ -56,9 +56,6 @@ async def play(ctx, *, search: str):
         'source_address': '0.0.0.0'
     }
 
-    # 노래를 찾는 중 메시지 표시
-    finding_message = await ctx.send("노래를 찾는 중이야 기다려줘")
-    
     try:
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(f"ytsearch:{search}", download=False)['entries'][0]
@@ -66,7 +63,7 @@ async def play(ctx, *, search: str):
             title = info['title']
 
         ffmpeg_options = {
-            'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
+            'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5 -loglevel debug',
             'options': '-vn'
         }
 
@@ -79,17 +76,16 @@ async def play(ctx, *, search: str):
                 print(f"Error sending message: {e}")
 
         audio_source = discord.FFmpegPCMAudio(URL, **ffmpeg_options)
-        if not ctx.voice_client.is_playing():
-            await ctx.send(f'지금 이 노래 재생할게! >> {title}')
-        else:
-            await ctx.send("나 아직 노래 재생을 다 못끝냈어 ㅠㅠ 다 끝나면 신청해주라!")
+        ctx.voice_client.play(audio_source, after=after_playing)
+        await ctx.send(f'지금 이 노래 재생할게! >> {title}')
     except Exception as e:
-        await ctx.send(f"An error occurred: {e}")
-        print(f"An error occurred: {e}")
+        error_message = f"An error occurred: {e}"
+        await ctx.send(error_message)
+        print(error_message)
 
 @bot.command()
-async def gd(ctx):
-    await ctx.send("GD command executed successfully!")
-    print("GD command executed successfully!")
+async def test(ctx):
+    await ctx.send("김경민바보")
+    print("경미닝 바보")
 
 bot.run(bot_token)
