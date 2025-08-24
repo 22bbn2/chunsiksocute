@@ -119,7 +119,7 @@ async def play(ctx, *, search: str):
 
 @bot.command()
 async def test(ctx):
-    await ctx.send("김경민바보")
+    await ctx.send("김경민바?보")
     print("경미닝 바보")
 
 bot.run(bot_token)
