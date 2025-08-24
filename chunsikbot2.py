@@ -108,7 +108,7 @@ async def play(ctx, *, search: str):
             title = info['title']
 
         queue.append((URL, title))
-        await ctx.send(f"'{title}'를 재생 대기열에 추가했어!")
+        await ctx.send(f"'{title}'를 재생 대기열에 추가했어!!")
 
         if not ctx.voice_client.is_playing():
             await play_next(ctx)
