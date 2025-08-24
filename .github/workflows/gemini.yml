@@ -1,11 +1,14 @@
-name: Gemini CLI Issue Triage
+name: Gemini CLI PR Review
+
 on:
-  issues:
-    types: [opened]
+  pull_request:
+    types: [opened, synchronize]
+
 jobs:
   triage:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - uses: google-github-actions/run-gemini-cli@v1
         with:
           gemini_api_key: ${{ secrets.GEMINI_API_KEY }}
