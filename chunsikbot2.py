@@ -108,7 +108,7 @@ async def play(ctx, *, search: str):
             title = info['title']
 
         queue.append((URL, title))
-        await ctx.send(f"'{title}'를 재생 대기열에 추가했어!")
+        await ctx.send(f"'{title}'를 재생 대기열에 추가했어!!")
 
         if not ctx.voice_client.is_playing():
             await play_next(ctx)
@@ -119,7 +119,7 @@ async def play(ctx, *, search: str):
 
 @bot.command()
 async def test(ctx):
-    await ctx.send("김경민바보")
+    await ctx.send("김경민바?보")
     print("경미닝 바보")
 
 bot.run(bot_token)
